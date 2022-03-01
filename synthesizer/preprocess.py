@@ -35,7 +35,6 @@ def preprocess_dataset(datasets_root: Path, out_dir: Path, n_processes: int, ski
         for metadatum in speaker_metadata:
             metadata_file.write("|".join(str(x) for x in metadatum) + "\n")
     metadata_file.close()
-
     # Verify the contents of the metadata file
     with metadata_fpath.open("r", encoding="utf-8") as metadata_file:
         metadata = [line.split("|") for line in metadata_file]
@@ -201,6 +200,8 @@ def process_utterance(wav: np.ndarray, text: str, out_dir: Path, basename: str,
     wav_fpath = out_dir.joinpath("audio", "audio-%s.npy" % basename)
     if skip_existing and mel_fpath.exists() and wav_fpath.exists():
         return None
+
+    #print(text)
 
     # Trim silence
     if hparams.trim_silence:

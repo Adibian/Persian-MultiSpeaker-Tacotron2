@@ -85,7 +85,7 @@ hparams = HParams(
         ### SV2TTS
         speaker_embedding_size = 256,               # Dimension for the speaker embedding
         silence_min_duration_split = 0.4,           # Duration in seconds of a silence for an utterance to be split
-        utterance_min_duration = 1.6,               # Duration in seconds below which utterances are discarded
+        utterance_min_duration = 0.8,               # Duration in seconds below which utterances are discarded
         )
 
 def hparams_debug_string():
