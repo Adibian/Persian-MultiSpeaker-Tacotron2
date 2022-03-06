@@ -20,5 +20,4 @@ synthesizer/saved_models/*
 vocoder/saved_models/*
 saved_models/my_run*
 saved_models/default/synthesizer.pt
-saved_models/default/vocoder.pt
 dataset/*
