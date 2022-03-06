@@ -11,7 +11,7 @@ import librosa
 main_path = os.getcwd()
 models_path = os.path.join(main_path, 'saved_models/my_run/')
 
-def main(ref_wav_path, text):
+def main(dir_name, ref_wav_path, text):
     encoder.load_model(os.path.join(models_path, 'encoder.pt'))
     synthesizer = Synthesizer(os.path.join(models_path, 'synthesizer.pt'))
     vocoder.load_model(os.path.join(models_path, 'vocoder.pt'))
@@ -36,9 +36,11 @@ def main(ref_wav_path, text):
     wav = np.concatenate([i for w, b in zip(wavs, breaks) for i in (w, b)])
     wav = wav / np.abs(wav).max() * 0.97
     
-    save_path = os.path.join(main_path, 'results/', ref_wav_path.split('/')[1] + '.wav')
-    librosa.output.write_wav(, wav, rate=Synthesizer.sample_rate)
+    res_path = os.path.join(main_path, 'results/', dir_name)
+    os.makedirs(os.path.dirname(res_path), exist_ok=True)
+    save_path = os.path.join(res_path, ref_wav_path.split('/')[-1])
+    librosa.output.write_wav(wav, rate=Synthesizer.sample_rate)
     
 if __name__ == "__main__":
-   main(sys.argv[1], sys.argv[2])
+   main(sys.argv[1], sys.argv[2], sys.argv[3])
     
