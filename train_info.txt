@@ -1,0 +1,6 @@
+60 epoches
+4589 steps per epoch
+295k steps
+0.8 step per second
+loss = 0.21
+
