@@ -3,7 +3,7 @@ import re
 import csv
 import shutil
 import os
-import sys
+import argparse
 
 main_path = os.getcwd()
 
@@ -19,13 +19,13 @@ def get_duration(row):
             dur_sum += dur
     return dur_sum
     
-def prepare_data_for_model(path):
+def prepare_data_for_model(path, duration_lim):
     f = open(path, 'r')
     data = csv.DictReader(f)
     data_lines = []
     for row in data:
         dur = get_duration(row['phenome'])
-        if dur > 10:
+        if dur > duration_lim:
             continue
         phoneme = row['phenome']
         utterance_name = row['seg_id']
@@ -67,7 +67,12 @@ def save_files(train_data, test_data, data_path):
             fp.write(line[0])
     return True
     
-def main(data_path):
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('--data_path', required=True)
+    args = parser.parse_args()
+    data_path = args.data_path
+    
     if os.path.isfile(os.path.join(data_path, 'train_info.csv')):
         train_data_path = os.path.join(data_path, 'train_info.csv')
     else:
@@ -78,8 +83,8 @@ def main(data_path):
     else:
         print('data_path is not correct!')
         return -1
-    train_data = prepare_data_for_model(train_data_path)
-    test_data = prepare_data_for_model(test_data_path)
+    train_data = prepare_data_for_model(train_data_path, 12)
+    test_data = prepare_data_for_model(test_data_path, 15)
     print('number of train data: ' + str(len(train_data)))
     print('number of test data: ' + str(len(test_data)))
     
@@ -88,4 +93,4 @@ def main(data_path):
         print('Data is created.')
 
 if __name__ == "__main__":
-    main(sys.argv[1])
+    main()

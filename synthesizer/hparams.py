@@ -20,12 +20,20 @@ class HParams(object):
 
 hparams = HParams(
         ### Signal Processing (used in both synthesizer and vocoder)
-        sample_rate = 16000,
-        n_fft = 800,
+
+        sample_rate = 24000,
+        n_fft = 2048,
         num_mels = 80,
-        hop_size = 200,                             # Tacotron uses 12.5 ms frame shift (set to sample_rate * 0.0125)
-        win_size = 800,                             # Tacotron uses 50 ms frame length (set to sample_rate * 0.050)
-        fmin = 55,
+        hop_size = 300,                             # Tacotron uses 12.5 ms frame shift (set to sample_rate * 0.0125)
+        win_size = 1200,                             # Tacotron uses 50 ms frame length (set to sample_rate * 0.050)
+        fmin = 80,
+
+        # sample_rate = 16000,
+        # n_fft = 800,
+        # num_mels = 80,
+        # hop_size = 200,                             # Tacotron uses 12.5 ms frame shift (set to sample_rate * 0.0125)
+        # win_size = 800,                             # Tacotron uses 50 ms frame length (set to sample_rate * 0.050)
+        # fmin = 55,
         min_level_db = -100,
         ref_level_db = 20,
         max_abs_value = 4.,                         # Gradient explodes if too big, premature convergence if too small.

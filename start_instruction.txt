@@ -1,0 +1,8 @@
+### prepare data ###
+python prepair_data.py --data_path ***
+### preprocess for synthesizer ###
+python synthesizer_preprocess_audio.py dataset --datasets_name persian_data --subfolders train_data --no_alignments
+python synthesizer_preprocess_embeds.py dataset/SV2TTS/synthesizer
+
+### train synthesizer ###
+python synthesizer_train.py my_run dataset/SV2TTS/synthesizer

@@ -1,6 +1,31 @@
+*** using default audio.py ***
 60 epoches
 4589 steps per epoch
 295k steps
 0.8 step per second
 loss = 0.21
+
+################################
+*** using new audio.py (to be compatabel with hifigan) ***
+* epochs
+2876 steps per epoch
+214 steps
+0.65 step per second
+loss = 0.62 
+
+###############################
+*** using default audio.py and resegmented wavs ***
+* epochs
+2876 steps per epoch
+320k steps
+0.63 step per second
+loss = 0.28
+
+##############################
+*** using default audio.py with changing in some parameters and resegmented wavs ***
+* epochs
+2868 steps per epoch
+320k steps
+0.64 step per second
+loss = 0.28
 
