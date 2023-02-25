@@ -8,8 +8,6 @@ import soundfile as sf
 
 from encoder import inference as encoder
 from synthesizer.inference import Synthesizer
-#from vocoder import inference as vocoder
-
 from parallel_wavegan.utils import load_model
 
 import librosa
@@ -18,12 +16,14 @@ main_path = os.getcwd()
 models_path = os.path.join(main_path, 'saved_models/my_run/')
 
 encoder.load_model(Path(models_path + 'encoder.pt'))
-synthesizer = Synthesizer(Path(models_path + 'reserved_synthesizer(old_audio_with_new_params_new_wavs).pt'))
-# vocoder.load_model(Path(models_path + 'vocoder.pt'))
+# synthesizer = Synthesizer(Path(models_path + 'synthesizer_best.pt'))
+synthesizer = Synthesizer(Path(models_path + 'new_config/synthesizer_000050.pt'))
 
 ## Folowing lines is for HiFiGAN
-fs = 24000
-vocoder = load_model('vocoder/hifigan/checkpoint-2500000steps.pkl')
+# fs = 24000
+# vocoder = load_model('vocoder/hifigan/checkpoint-2500000steps.pkl')
+fs = 22050
+vocoder = load_model('vocoder/hifigan2/checkpoint-110000steps.pkl')
 vocoder.remove_weight_norm()
 vocoder = vocoder.eval().to('cpu')
 
@@ -43,35 +43,21 @@ def inference(speaker, dir_name, ref_wav_path, text):
     texts = [text]
     embeds = [embed] * len(texts)
     specs = synthesizer.synthesize_spectrograms(texts, embeds)
-    # breaks = [spec.shape[1] for spec in specs]
     spec = np.concatenate(specs, axis=1)
     x = torch.from_numpy(spec.T).to('cpu')
-    # wav = vocoder.infer_waveform(spec)
-    # b_ends = np.cumsum(np.array(breaks) * Synthesizer.hparams.hop_size)
-    # b_starts = np.concatenate(([0], b_ends[:-1]))
-    # wavs = [wav[start:end] for start, end, in zip(b_starts, b_ends)]
-    # breaks = [np.zeros(int(0.15 * Synthesizer.sample_rate))] * len(breaks)
-    # wav = np.concatenate([i for w, b in zip(wavs, breaks) for i in (w, b)])
-    # wav = wav / np.abs(wav).max() * 0.97
     
     with torch.no_grad():
         wav = vocoder.inference(x)
+    wav = wav / np.abs(wav).max() * 0.95
     
-    res_path = os.path.join(main_path, 'results', 'v6_my_texts')
+    # res_path = os.path.join(main_path, 'results', 'best_result')
+    res_path = os.path.join(main_path, 'results', 'temp')
     os.makedirs(res_path, exist_ok=True)
     
     res_path_normal = os.path.join(res_path, dir_name, male_or_female[speaker], speaker)
     os.makedirs(res_path_normal, exist_ok=True)
     save_path = os.path.join(res_path_normal, ref_wav_path.split('/')[-1])
-    # librosa.output.write_wav(save_path, wav, rate=Synthesizer.sample_rate)
     sf.write(save_path, wav, fs)
-    
-    # res_path_denoised = os.path.join(res_path, 'denoised', speaker, dir_name)
-    # os.makedirs(res_path_denoised, exist_ok=True)
-    # save_path = os.path.join(res_path_denoised, ref_wav_path.split('/')[-1])
-    # reduced_noise = nr.reduce_noise(y=wav, sr=Synthesizer.sample_rate)
-    #librosa.output.write_wav(save_path, reduced_noise, rate=Synthesizer.sample_rate)
-    #sf.write(save_path, reduced_noise, Synthesizer.sample_rate)
     print('\nwav file is saved.')
     
 def main():
@@ -200,7 +186,7 @@ def main():
     # inference('072', "unseen_text_unseen_speaker_nonpara", "dataset/persian_data/test_data/unseen_speakers/speaker-072/12.wav", "SIL J A N G A L H AA Y E H I R K AA N I Y E AH I R AA N V A AH AA Z A R B AA Y J AA N AH A Z M O H E M T A R I N M A N AA T E Q E Z I S T K O R E D A R J A H AA N H A S T A N D SIL")  ## جنگل های هیرکانی در ایران و آذربایجان از مهمترین مناطق زیست کره در جهان هستند
     
     # inference('073', "unseen_text_unseen_speaker_nonpara", "dataset/persian_data/test_data/unseen_speakers/speaker-073/13.wav", "SIL M A N AA T E Q E Z I Y AA D I AH A Z J A H AA N T A H T E T A AH S I R E B AA R AA N H AA Y E AH A S I D I H A S T A N D SIL")  ## مناطق زیادی از جهان تحت تاثیر باران های اسیدی هستند
-    inference('073', "unseen_text_unseen_speaker_nonpara", "dataset/persian_data/test_data/unseen_speakers/speaker-073/14.wav", "SIL T A N H AA P E S T AA N D AA R AA N I K E Q AA D E R B E P A R V AA Z M I B AA SH A N D KH O F F AA SH H AA H A S T A N D SIL")  ## تنها پستاندارانی که قادر به پرواز هستند خفاش ها هستند
+    # inference('073', "unseen_text_unseen_speaker_nonpara", "dataset/persian_data/test_data/unseen_speakers/speaker-073/14.wav", "SIL T A N H AA P E S T AA N D AA R AA N I K E Q AA D E R B E P A R V AA Z M I B AA SH A N D KH O F F AA SH H AA H A S T A N D SIL")  ## تنها پستاندارانی که قادر به پرواز هستند خفاش ها هستند
     
     # inference('074', "unseen_text_unseen_speaker_nonpara", "dataset/persian_data/test_data/unseen_speakers/speaker-074/15.wav", "SIL SH AA Y A D B E T A V AA N G O F T SH A H R I Y AA R SIL AH A N D I SH E H AA Y E H AA F E Z R AA B E Z A B AA N E S A AH D I B A Y AA N K A R D E H AH A S T SIL")  ## شاید بتوان گفت شهریار اندیشه های سعدی را به زبان حافظ بیان کرده است
     # inference('074', "unseen_text_unseen_speaker_nonpara", "dataset/persian_data/test_data/unseen_speakers/speaker-074/16.wav", "SIL B I SH A K Y E K I AH A Z M O H E M T A R I N SH A H R H AA D A R H O Z E Y E M E AH M AA R I SIL SH A H R E Y A Z D AH A S T SIL")  ## بی شک یکی از مهمترین شهر ها در حوزه معماری شهر یزد است

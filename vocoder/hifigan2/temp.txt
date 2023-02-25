@@ -1,0 +1,3 @@
+5 3 21 2 * /usr/bin/wget https://assets3.deepmine.ir/static/checkpoint-2000000steps.pkl /mnt/hdd1/adibian/Vocoders/hifigan/saved_models/new_params/checkpoint-2000000steps.pkl 
+15 3 21 2 * https://assets3.deepmine.ir/static/checkpoint-1500000steps.pkl /mnt/hdd1/adibian/Vocoders/hifigan/saved_models/new_params/checkpoint-1500000steps.pkl    
+35 3 21 2 * https://assets3.deepmine.ir/static/train.log /mnt/hdd1/adibian/Vocoders/hifigan/saved_models/new_params/train.log

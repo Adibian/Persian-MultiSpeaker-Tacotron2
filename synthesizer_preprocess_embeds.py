@@ -3,8 +3,11 @@ from utils.argutils import print_args
 from pathlib import Path
 import argparse
 
-
 if __name__ == "__main__":
+
+    import torch
+    torch.multiprocessing.set_start_method('spawn')
+
     parser = argparse.ArgumentParser(
         description="Creates embeddings for the synthesizer from the LibriSpeech utterances.",
         formatter_class=argparse.ArgumentDefaultsHelpFormatter
