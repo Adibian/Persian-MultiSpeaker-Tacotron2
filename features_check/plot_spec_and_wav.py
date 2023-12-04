@@ -18,7 +18,8 @@ from parallel_wavegan.utils import load_model
 
 def get_spec(models_path, ref_wav_path):
     encoder.load_model(Path(os.path.join(models_path, 'encoder.pt')))
-    synthesizer = Synthesizer(Path(os.path.join(models_path, 'reserved_synthesizer(old_audio_with_new_params_new_wavs).pt')))
+    # synthesizer = Synthesizer(Path(os.path.join(models_path, 'reserved_synthesizer(old_audio_with_new_params_new_wavs).pt')))
+    synthesizer = Synthesizer(Path(os.path.join(models_path, 'synthesizer_best.pt')))
     
     # ref_wav_path = os.path.join(main_path, 'dataset/persian_data/train_data/book-1/', ref_wav_path) ## refrence wav
     wav = Synthesizer.load_preprocess_wav(ref_wav_path)
@@ -45,18 +46,23 @@ def get_wavform(models_path, spec):
 def plot_result(spec, waveform):
     # x = np.concatenate(specs, axis=1)
     # pred_spectrogram = torch.from_numpy(spec.T).to('cpu')
-    fig, axs = plt.subplots(2, 1, figsize=(9, 8))
+    matplotlib.rc('font', size=6)
+    fig, axs = plt.subplots(2, 1, figsize=(3.5, 4))
     ax1 = axs[0]
     ax2 = axs[1]
-    im = ax1.imshow(np.rot90(spec), interpolation="none")
+    im = ax1.imshow(spec.T, interpolation="none")
+    # y_ticks = np.arange(80, 0, -10)
+    # ax1.set_yticks(y_ticks)
+    ax1.set_ylim(bottom=0, top=80)
     fig.colorbar(mappable=im, orientation="vertical", ax=ax1)
-    ax1.title.set_text('Spectrogram \n "SIL M A T N B E G O F T AA R E F AA R S I SIL (Persian text-to-speech)"')
-    ax1.set_xlabel('Frams')
-    ax1.set_ylabel('Chanels')
+    # ax1.title.set_text('Spectrogram \n "SIL M A T N B E G O F T AA R E F AA R S I SIL (Persian text-to-speech)"')
+    ax1.title.set_text('Mel-Spectrogram')
+    ax1.set_xlabel('        Frames \n         (a)')
+    ax1.set_ylabel('Channels')
     times = np.linspace(0, len(waveform)/24000, num=len(waveform))
     ax2.plot(times, waveform)
     ax2.title.set_text('Waveform')
-    ax2.set_xlabel('Time(s)')
+    ax2.set_xlabel('Time(s) \n (b)')
     ax2.set_ylabel('Amplitude')
     plt.tight_layout()
     plt.savefig('pictures/spec_and_wave.pdf', format="pdf", bbox_inches="tight")

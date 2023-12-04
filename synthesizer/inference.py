@@ -26,10 +26,12 @@ class Synthesizer:
         self.verbose = verbose
 
         # Check for GPU
-        if torch.cuda.is_available():
-            self.device = torch.device("cuda")
-        else:
-            self.device = torch.device("cpu")
+        # if torch.cuda.is_available():
+        #     self.device = torch.device("cuda")
+        # else:
+        #     self.device = torch.device("cpu")
+        self.device = torch.device("cpu")
+
         if self.verbose:
             print("Synthesizer using device:", self.device)
 

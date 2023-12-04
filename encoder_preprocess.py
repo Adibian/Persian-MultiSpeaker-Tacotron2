@@ -1,4 +1,4 @@
-from encoder.preprocess import preprocess_librispeech, preprocess_voxceleb1, preprocess_voxceleb2
+from encoder.preprocess import preprocess_persian
 from utils.argutils import print_args
 from pathlib import Path
 import argparse
@@ -61,9 +61,7 @@ if __name__ == "__main__":
     # Preprocess the datasets
     print_args(args, parser)
     preprocess_func = {
-        "librispeech_other": preprocess_librispeech,
-        "voxceleb1": preprocess_voxceleb1,
-        "voxceleb2": preprocess_voxceleb2,
+        "persian_data": preprocess_persian
     }
     args = vars(args)
     for dataset in args.pop("datasets"):

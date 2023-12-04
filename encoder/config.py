@@ -1,3 +1,11 @@
+persian_datasets = {
+    "train": {
+        "data": ["persian_data/train_data"]
+    },
+    "test": {
+        "data": ["persian_data/test_data"]
+    }
+}
 librispeech_datasets = {
     "train": {
         "clean": ["LibriSpeech/train-clean-100", "LibriSpeech/train-clean-360"],

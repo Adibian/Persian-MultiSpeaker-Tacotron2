@@ -29,10 +29,10 @@ def prepare_data_for_model(path, duration_lim):
             continue
         phoneme = row['phenome']
         utterance_name = row['seg_id']
-        speake_id = row['speaker_id']
+        speaker_id = row['speaker_id']
         phoneme = re.sub("\[([0-9]+)\]", '', phoneme)
         phoneme = re.sub("\s+\|\s+", ' ', phoneme)
-        data_lines.append([phoneme, utterance_name, speake_id])
+        data_lines.append([phoneme, utterance_name, speaker_id])
     f.close()
     return data_lines
     

@@ -15,12 +15,15 @@
 *.toc
 *.wav
 *.sh
+
 encoder/saved_models/*
 synthesizer/saved_models/*
 vocoder/saved_models/*
-saved_models/my_run*
+saved_models/my_run
+saved_models/train_encoder
 saved_models/default/*
 dataset/*
 results/*
+!results/best_result
 vocoder/hifigan/*.pkl
-vocoder/hifigan2/*.pkl
+vocoder/hifigan2

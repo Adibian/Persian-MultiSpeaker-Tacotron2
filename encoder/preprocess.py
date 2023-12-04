@@ -7,7 +7,7 @@ import numpy as np
 from tqdm import tqdm
 
 from encoder import audio
-from encoder.config import librispeech_datasets, anglophone_nationalites
+from encoder.config import librispeech_datasets, anglophone_nationalites, persian_datasets
 from encoder.params_data import *
 
 
@@ -137,6 +137,18 @@ def preprocess_librispeech(datasets_root: Path, out_dir: Path, skip_existing=Fal
         if not dataset_root:
             return
 
+        # Preprocess all speakers
+        speaker_dirs = list(dataset_root.glob("*"))
+        _preprocess_speaker_dirs(speaker_dirs, dataset_name, datasets_root, out_dir, skip_existing, logger)
+
+
+
+def preprocess_persian(datasets_root: Path, out_dir: Path, skip_existing=False):
+    for dataset_name in persian_datasets["train"]["data"]:
+        # Initialize the preprocessing
+        dataset_root, logger = _init_preprocess_dataset(dataset_name, datasets_root, out_dir)
+        if not dataset_root:
+            return
         # Preprocess all speakers
         speaker_dirs = list(dataset_root.glob("*"))
         _preprocess_speaker_dirs(speaker_dirs, dataset_name, datasets_root, out_dir, skip_existing, logger)
