@@ -10,7 +10,6 @@ from encoder import inference as encoder
 from synthesizer.inference import Synthesizer
 from parallel_wavegan.utils import load_model
 
-import librosa
 
 main_path = os.getcwd()
 models_path = os.path.join(main_path, 'saved_models/my_run/')

@@ -21,9 +21,10 @@ synthesizer/saved_models/*
 vocoder/saved_models/*
 saved_models/my_run
 saved_models/train_encoder
-saved_models/default/*
 dataset/*
 vocoder/hifigan/*.pkl
 vocoder/hifigan2
 evaluate_vocoder
 features_check
+auto_inference.py
+start_instruction.txt
