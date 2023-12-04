@@ -23,7 +23,7 @@ saved_models/my_run
 saved_models/train_encoder
 saved_models/default/*
 dataset/*
-results/*
-!results/best_result
 vocoder/hifigan/*.pkl
 vocoder/hifigan2
+evaluate_vocoder
+features_check
