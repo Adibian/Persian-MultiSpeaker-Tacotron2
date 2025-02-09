@@ -76,4 +76,9 @@ Check out [some audio samples](https://github.com/majidAdibian77/persian-SV2TTS/
 - [Real-Time-Voice-Cloning repository](https://github.com/CorentinJ/Real-Time-Voice-Cloning/tree/master),
 - [ParallelWaveGAN repository](https://github.com/kan-bayashi/ParallelWaveGAN)
 
+## License  
+This project is based on [Real-Time-Voice-Cloning](https://github.com/CorentinJ/Real-Time-Voice-Cloning),  
+which is licensed under the MIT License.  
+The modifications for Persian language support are © [YEAR] [YOUR NAME].  
+
   
