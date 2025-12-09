@@ -61,7 +61,7 @@ def preprocess_speaker(speaker_dir, out_dir: Path, skip_existing: bool, hparams,
 
                 for wav_fpath in wav_fpaths:
                     # Load the audio waveform
-                    wav, _ = librosa.load(str(wav_fpath), hparams.sample_rate)
+                    wav, _ = librosa.load(str(wav_fpath), sr=hparams.sample_rate)
                     if hparams.rescale:
                         wav = wav / np.abs(wav).max() * hparams.rescaling_max
 
